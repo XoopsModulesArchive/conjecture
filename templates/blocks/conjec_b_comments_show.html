@@ -1,0 +1,55 @@
+<table class="outer" cellpadding="5" cellspacing="1">
+  <tr>
+    <th width="20%"><{$lang_poster}></td>
+    <th><{$lang_thread}></td>
+  </tr>
+  <{foreach item=comment from=$block.comments}>
+    <{if $comment.uid != 0 && isset($block.users[$comment.uid]) }>
+        <{assign var=poster value=$block.users[$comment.uid]}>
+        <{assign var=rank_id value=$poster->getVar('rank')}>
+    <{/if}>
+<!-- start comment post -->
+        <tr>
+          <td class="head"><a id="comment<{$comment.id}>"></a> <a href="<{$xoops_url}>/userinfo.php?uid=<{$poster->getVar('uid')}>"><{$poster->getVar('uname')}></a></td>
+          <td class="head">
+            <div class="comDate"><span class="comDateCaption"><{$smarty.const._CONJEC_MB_POSTED}>:</span> <{$comment.date_posted}></div>
+          </td>
+        </tr>
+        <tr>
+
+          <{if $comment.uid != 0 && isset($block.users[$comment.uid]) }>
+
+              <td class="odd">
+                <div class="comUserRank">
+                    <div class="comUserRankText">
+                        <{$ranks[$rank_id].rank_title}>
+                    </div>
+                    <img class="comUserRankImg" src="<{$xoops_upload_url}>/<{$ranks[$rank_id].rank_image}>" alt="" />
+                </div>
+                <img class="comUserImg" src="<{$xoops_upload_url}>/<{$poster->getVar('user_avatar')}>" alt="" />
+                <div class="comUserStat">
+                    <span class="comUserStatCaption"><{$smarty.const._CONJEC_MB_JOINED}>:</span> <{$poster->getVar('user_regdate')}>
+                </div>
+                <div class="comUserStat">
+                    <span class="comUserStatCaption"><{$smarty.const._CONJEC_MB_FROM}>:</span> <{$poster->getVar('user_from')}>
+                </div>
+                <div class="comUserStat">
+                    <span class="comUserStatCaption"><{$smarty.const._CONJEC_MB_POSTS}>:</span> <{$poster->getVar('posts')}>
+                </div>
+              </td>
+
+          <{else}>
+
+            <td class="odd"> </td>
+
+          <{/if}>
+
+          <td class="odd">
+            <div class="comText"><{$comment.text}></div>
+          </td>
+        </tr>
+<!-- end comment post -->
+    <{/foreach}>
+</table>
+<hr />
+<{$block.form}>
